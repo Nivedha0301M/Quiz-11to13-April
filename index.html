@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+<title>Current Affairs Quiz</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+body { font-family: Arial; margin: 20px; line-height: 1.6; }
+
+.question {
+  margin-bottom: 25px;
+  padding: 10px;
+  border-bottom: 1px solid #ccc;
+}
+
+button {
+  display: block;
+  width: 100%;
+  text-align: left;
+  padding: 8px;
+  margin: 5px 0;
+}
+
+.correct { color: green; }
+.wrong { color: red; }
+</style>
+
+</head>
+
+<body>
+
+<h2>📚 Current Affairs Quiz (40 Questions)</h2>
+<div id="quiz"></div>
+<h3 id="score"></h3>
+
+<script>
+
+let score = 0;
+let attempted = 0;
+
+const quizData = [
+
+{q:"1. The Cabinet Committee on Economic Affairs approved two hydroelectric projects in which state?",options:["Sikkim","Arunachal Pradesh","Himachal Pradesh","Uttarakhand"],answer:1,exp:"Approved in Arunachal Pradesh."},
+
+{q:"2. The total cost of the approved hydroelectric projects in Arunachal Pradesh is approximately:",options:["₹35,000 crore","₹38,500 crore","₹40,175 crore","₹42,000 crore"],answer:2,exp:"Total cost is ₹40,175 crore."},
+
+{q:"3. The capacity of the Kalai-II Hydro Electric Project is:",options:["1000 megawatt","1100 megawatt","1200 megawatt","1250 megawatt"],answer:2,exp:"Capacity is 1200 megawatt."},
+
+{q:"4. The Kamala Hydro Electric Project spans across which of the following districts?",options:["Kamle, Kra Daadi and Kurung Kumey","Tawang, West Siang and Lohit","Anjaw, Lohit and Changlang","Papum Pare, Lower Subansiri and Tirap"],answer:0,exp:"Located in Kamle, Kra Daadi and Kurung Kumey."},
+
+{q:"5. The Union Cabinet approved Nutrient Based Subsidy rates for which season of 2026?",options:["Rabi","Kharif","Zaid","Annual"],answer:1,exp:"Approved for Kharif season."},
+
+{q:"6. The budgetary allocation for Nutrient Based Subsidy on Phosphatic and Potassic fertilizers is:",options:["₹38,000 crore","₹40,500 crore","₹41,533.81 crore","₹43,200 crore"],answer:2,exp:"₹41,533.81 crore allocated."},
+
+{q:"7. The length of Jaipur Metro Phase-II project is approximately:",options:["35 km","38 km","41 km","45 km"],answer:2,exp:"Length is 41 km."},
+
+{q:"8. The ‘Skills Outcomes Fund’ initiative is anchored by which organisation?",options:["National Skill Development Corporation","NITI Aayog","Ministry of Finance","Reserve Bank of India"],answer:0,exp:"Anchored by NSDC."},
+
+{q:"9. The fund allocated for the Skills Outcomes Fund campaign is:",options:["₹300 crore","₹450 crore","₹530 crore","₹600 crore"],answer:2,exp:"₹530 crore allocated."},
+
+{q:"10. The report “From Borrowers to Builders: Women and India’s Evolving Credit Market” was released by:",options:["Reserve Bank of India","Ministry of Finance","NITI Aayog","Securities and Exchange Board of India"],answer:2,exp:"Released by NITI Aayog."},
+
+{q:"11. Women hold what percentage of total credit portfolio in India as per the report?",options:["22%","24%","26%","30%"],answer:2,exp:"Women hold 26%."},
+
+{q:"12. India withdrew its proposal to host COP33 under which international framework?",options:["United Nations Environment Programme","United Nations Framework Convention on Climate Change","Intergovernmental Panel on Climate Change","World Meteorological Organization"],answer:1,exp:"Under UNFCCC."},
+
+{q:"13. India previously hosted which Conference of Parties?",options:["COP6","COP7","COP8","COP9"],answer:2,exp:"India hosted COP8."},
+
+{q:"14. The Doppler Weather Radar announced under Mission Mausam will primarily help in:",options:["Soil testing","Climate policy formulation","Real-time weather monitoring","Ocean mapping"],answer:2,exp:"Used for real-time weather monitoring."},
+
+{q:"15. Mission Mausam was launched in which year?",options:["2023","2024","2025","2026"],answer:2,exp:"Launched in 2025."},
+
+{q:"16. The ‘Aluminium Bharat’ initiative is launched by:",options:["Confederation of Indian Industry","Aluminium Extrusion Manufacturers Association of India","Federation of Indian Chambers of Commerce and Industry","Ministry of Mines"],answer:1,exp:"Launched by ALEMAI."},
+
+{q:"17. The purpose of ‘Aluminium Bharat’ initiative is primarily to:",options:["Promote imports","Boost domestic manufacturing","Increase exports of crude aluminium","Reduce tariffs"],answer:1,exp:"To boost domestic manufacturing."},
+
+{q:"18. NTPC Limited signed a Memorandum of Understanding with which organisation?",options:["Siemens AG","General Electric","Électricité de France","Toshiba Corporation"],answer:2,exp:"Signed with EDF."},
+
+{q:"19. The nuclear collaboration between NTPC and EDF will use which technology?",options:["Pressurized Heavy Water Reactor","Boiling Water Reactor","European Pressurised Reactor","Fast Breeder Reactor"],answer:2,exp:"Uses EPR technology."},
+
+{q:"20. The total installed capacity of NTPC is approximately:",options:["75 gigawatts","82 gigawatts","89 gigawatts","95 gigawatts"],answer:2,exp:"Approximately 89 gigawatts."},
+
+{q:"21. The Special Task Force constituted by Indian Council of Agricultural Research aims to:",options:["Promote exports","Strengthen agricultural resilience","Reduce subsidies","Privatise agriculture"],answer:1,exp:"To strengthen agricultural resilience."},
+
+{q:"22. The Direct Seeding of Rice technology helps in saving approximately:",options:["10–15% water","15–20% water","20–30% water","30–40% water"],answer:2,exp:"Saves 20–30% water."},
+
+{q:"23. India was elected to how many subsidiary bodies of the United Nations Economic and Social Council?",options:["One","Two","Three","Four"],answer:2,exp:"Elected to three bodies."},
+
+{q:"24. The term for India’s membership in the Commission on Science and Technology for Development is:",options:["2025–2028","2026–2029","2027–2030","2028–2031"],answer:2,exp:"2027–2030 term."},
+
+{q:"25. The Monetary Policy Committee meeting of April 2026 was chaired by:",options:["Shaktikanta Das","Urjit Patel","Sanjay Malhotra","Raghuram Rajan"],answer:2,exp:"Chaired by Sanjay Malhotra."},
+
+{q:"26. The repo rate announced in April 2026 monetary policy was:",options:["5.00%","5.25%","5.50%","5.75%"],answer:1,exp:"Repo rate is 5.25%."},
+
+{q:"27. The Cash Reserve Ratio is maintained at:",options:["2.5%","3%","3.5%","4%"],answer:1,exp:"CRR is 3%."},
+
+{q:"28. India’s GDP growth forecast for Financial Year 2026–27 was revised to:",options:["6.5%","6.7%","6.9%","7.1%"],answer:2,exp:"Revised to 6.9%."},
+
+{q:"29. The Consumer Price Index inflation projection for FY27 is:",options:["4.2%","4.4%","4.6%","4.8%"],answer:2,exp:"Projected at 4.6%."},
+
+{q:"30. Who has been appointed as the Chairperson of Nasscom Foundation?",options:["Rostow Ravanan","UB Pravin Rao","Salil Parekh","CP Gurnani"],answer:1,exp:"UB Pravin Rao appointed."},
+
+{q:"31. James Warren Whittaker achieved which historic feat?",options:["First European on Everest","First Asian on Everest","First American on Everest","First solo climber on Everest"],answer:2,exp:"First American to summit Everest."},
+
+{q:"32. Central Reserve Police Force Valour Day commemorates which event?",options:["Kargil War","Battle of Rezang La","Battle of Sardar Post","Operation Vijay"],answer:2,exp:"Battle of Sardar Post."},
+
+{q:"33. Central Reserve Police Force Valour Day is observed on:",options:["April 7","April 8","April 9","April 10"],answer:2,exp:"Observed on April 9."},
+
+{q:"34. The humanoid robot ‘Nila’ was deployed in which Union Territory?",options:["Lakshadweep","Andaman and Nicobar Islands","Puducherry","Chandigarh"],answer:2,exp:"Deployed in Puducherry."},
+
+{q:"35. The robot ‘Nila’ was developed by which organisation?",options:["Tata Robotics","Robo Mirror","DRDO","ISRO"],answer:1,exp:"Developed by Robo Mirror."},
+
+{q:"36. The National Skill Development Corporation functions under which ministry?",options:["Ministry of Labour","Ministry of Education","Ministry of Skill Development and Entrepreneurship","Ministry of Finance"],answer:2,exp:"Under MSDE."},
+
+{q:"37. The National Institution for Transforming India was established in:",options:["2012","2014","2015","2017"],answer:2,exp:"Established in 2015."},
+
+{q:"38. National Thermal Power Corporation was established in which year?",options:["1970","1973","1975","1978"],answer:2,exp:"Established in 1975."},
+
+{q:"39. The Indian Council of Agricultural Research was established in:",options:["1925","1927","1929","1931"],answer:2,exp:"Established in 1929."},
+
+{q:"40. The programme ‘Mera Gaon Mera Gaurav’ was launched in which year?",options:["2013","2014","2015","2016"],answer:2,exp:"Launched in 2015."}
+
+];
+
+const quizDiv = document.getElementById("quiz");
+
+quizData.forEach((item) => {
+
+let qDiv = document.createElement("div");
+qDiv.classList.add("question");
+
+let qText = document.createElement("p");
+qText.innerHTML = item.q;
+qDiv.appendChild(qText);
+
+item.options.forEach((opt, i) => {
+
+let btn = document.createElement("button");
+btn.innerHTML = opt;
+
+btn.onclick = function(){
+
+if(btn.disabled) return;
+
+attempted++;
+
+let result = document.createElement("p");
+
+if(i === item.answer){
+score++;
+result.innerHTML = "✅ Correct!";
+result.className = "correct";
+}else{
+result.innerHTML = "❌ Wrong! Correct: " + item.options[item.answer] + "<br>Explanation: " + item.exp;
+result.className = "wrong";
+}
+
+qDiv.appendChild(result);
+
+document.getElementById("score").innerHTML = "Score: " + score + " / " + attempted;
+
+Array.from(qDiv.getElementsByTagName("button")).forEach(b => b.disabled = true);
+
+};
+
+qDiv.appendChild(btn);
+
+});
+
+quizDiv.appendChild(qDiv);
+
+});
+
+</script>
+
+</body>
+</html>
